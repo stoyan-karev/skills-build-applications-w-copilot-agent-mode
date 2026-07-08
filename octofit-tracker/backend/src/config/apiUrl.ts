@@ -1,4 +1,4 @@
-const port = Number(process.env.PORT) || 8000;
+const port = process.env.PORT || '8000';
 const codespaceName = process.env.CODESPACE_NAME;
 
 export const apiPort = port;
