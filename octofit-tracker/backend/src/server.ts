@@ -2,12 +2,24 @@ import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
 import './config/database';
-import { apiBaseUrl, apiPort } from './config/apiUrl';
 import activitiesRouter from './routes/activities';
 import leaderboardRouter from './routes/leaderboard';
 import teamsRouter from './routes/teams';
 import usersRouter from './routes/users';
 import workoutsRouter from './routes/workouts';
+
+const defaultPort = '8000';
+const port = process.env.PORT || defaultPort;
+const codespaceName = process.env.CODESPACE_NAME;
+const defaultCodespaceBaseUrl = `https://${codespaceName}-8000.app.github.dev`;
+
+export const apiPort = port;
+
+export const apiBaseUrl = codespaceName
+  ? port === defaultPort
+    ? defaultCodespaceBaseUrl
+    : `https://${codespaceName}-${port}.app.github.dev`
+  : `http://localhost:${port}`;
 
 const app = express();
 
