@@ -56,53 +56,63 @@ jobs:
 
       # START: Check practical exercise
 
-      - name: Check for codespace API endpoint in Activities.jsx
+      - name: Check for codespace API endpoint in api.js
         id: check-activities
         continue-on-error: true
         uses: skills/action-keyphrase-checker@v2.0.0
         with:
-          text-file: octofit-tracker/frontend/src/components/Activities.jsx
-          keyphrase: '-8000.app.github.dev/api/activities'
+          text-file: octofit-tracker/frontend/src/api.js
+          keyphrase: '-8000.app.github.dev/api/'
           minimum-occurrences: 1
           case-sensitive: false
 
-      - name: Check for codespace API endpoint in Leaderboard.jsx
+      - name: Check for fetchCollection usage in Activities.jsx
+        id: check-activities-component
+        continue-on-error: true
+        uses: skills/action-keyphrase-checker@v2.0.0
+        with:
+          text-file: octofit-tracker/frontend/src/components/Activities.jsx
+          keyphrase: "activities"
+          minimum-occurrences: 1
+          case-sensitive: false
+
+      - name: Check for fetchCollection usage in Leaderboard.jsx
         id: check-leaderboard
         continue-on-error: true
         uses: skills/action-keyphrase-checker@v2.0.0
         with:
           text-file: octofit-tracker/frontend/src/components/Leaderboard.jsx
-          keyphrase: '-8000.app.github.dev/api/leaderboard'
+          keyphrase: "leaderboard"
           minimum-occurrences: 1
           case-sensitive: false
 
-      - name: Check for codespace API endpoint in Teams.jsx
+      - name: Check for fetchCollection usage in Teams.jsx
         id: check-teams
         continue-on-error: true
         uses: skills/action-keyphrase-checker@v2.0.0
         with:
           text-file: octofit-tracker/frontend/src/components/Teams.jsx
-          keyphrase: '-8000.app.github.dev/api/teams'
+          keyphrase: "teams"
           minimum-occurrences: 1
           case-sensitive: false
 
-      - name: Check for codespace API endpoint in Users.jsx
+      - name: Check for fetchCollection usage in Users.jsx
         id: check-users
         continue-on-error: true
         uses: skills/action-keyphrase-checker@v2.0.0
         with:
           text-file: octofit-tracker/frontend/src/components/Users.jsx
-          keyphrase: '-8000.app.github.dev/api/users'
+          keyphrase: "users"
           minimum-occurrences: 1
           case-sensitive: false
 
-      - name: Check for codespace API endpoint in Workouts.jsx
+      - name: Check for fetchCollection usage in Workouts.jsx
         id: check-workouts
         continue-on-error: true
         uses: skills/action-keyphrase-checker@v2.0.0
         with:
           text-file: octofit-tracker/frontend/src/components/Workouts.jsx
-          keyphrase: '-8000.app.github.dev/api/workouts'
+          keyphrase: "workouts"
           minimum-occurrences: 1
           case-sensitive: false
 
@@ -117,15 +127,17 @@ jobs:
           vars: |
             step_number: 5
             results_table:
-              - description: "Check activities for the API endpoint"
+              - description: "Check api.js for the codespace API URL"
                 passed: ${{ steps.check-activities.outcome == 'success' }}
-              - description: "Check leaderboard for the API endpoint"
+              - description: "Check Activities.jsx uses fetchCollection"
+                passed: ${{ steps.check-activities-component.outcome == 'success' }}
+              - description: "Check Leaderboard.jsx uses fetchCollection"
                 passed: ${{ steps.check-leaderboard.outcome == 'success' }}
-              - description: "Check teams for the API endpoint"
+              - description: "Check Teams.jsx uses fetchCollection"
                 passed: ${{ steps.check-teams.outcome == 'success' }}
-              - description: "Check users for the API endpoint"
+              - description: "Check Users.jsx uses fetchCollection"
                 passed: ${{ steps.check-users.outcome == 'success' }}
-              - description: "Check workouts for the API endpoint"
+              - description: "Check Workouts.jsx uses fetchCollection"
                 passed: ${{ steps.check-workouts.outcome == 'success' }}
 
       # END: Check practical exercise
